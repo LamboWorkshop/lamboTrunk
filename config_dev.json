@@ -1,0 +1,6 @@
+{
+    "logFilePath": "/tmp/lamboTrunk.log",
+    "coinsToMonitorPath": "./coinsToMonitor",
+    "refreshMonitorMinute": 60,
+    "intervalRefresh": "1h"
+}

@@ -1,0 +1,5 @@
+{
+    "logFilePath": "/lamboTrunk/logs/lamboTrunk.log",
+    "refreshMonitorMinute": 60,
+    "intervalRefresh": "1h"
+}
