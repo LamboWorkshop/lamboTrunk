@@ -201,7 +201,8 @@ func monitorCoin(coin sCoinToMonitor) error {
 	return nil
 }
 
-func DBSaveManualTransaction(DBClient *sql.DB, resp *binance.Order, pair string) (transactionHistory, error) {
+// DBSaveManualTransaction DBSaveManualTransaction
+func dBSaveManualTransaction(DBClient *sql.DB, resp *binance.Order, pair string) (transactionHistory, error) {
 	var transaction transactionHistory
 
 	// Get fee from binance
@@ -254,14 +255,14 @@ func checkForManualTransaction(coin sCoinToMonitor) (bool, error) {
 
 	// check if order id is stored to DB
 	// if transaction is empty, it means the latest binance transaction was done manually
-	currentTransaction, err := DBGetTransactionByOrderID(DBClient, resp.OrderID, string(resp.Side))
+	currentTransaction, err := dBGetTransactionByOrderID(DBClient, resp.OrderID, string(resp.Side))
 	if currentTransaction != (transactionHistory{}) {
 		// No manual transaction found. Or the latest manual transaction is already stored
 		return false, err
 	}
 
 	// 1) Store to DB
-	transaction, err := DBSaveManualTransaction(DBClient, resp, coin.pair)
+	transaction, err := dBSaveManualTransaction(DBClient, resp, coin.pair)
 	if err != nil {
 		return false, err
 	}

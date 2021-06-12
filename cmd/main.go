@@ -25,9 +25,8 @@ func getBotStatus() (bool, error) {
 	case nil:
 		if botStatus == "on" {
 			return false, nil
-		} else {
-			return true, nil
 		}
+		return true, nil
 	default:
 		return false, err
 	}
@@ -58,9 +57,8 @@ func checkBotStatus() (bool, error) {
 	}
 	if exist {
 		return true, setBotStatus()
-	} else {
-		return getBotStatus()
 	}
+	return getBotStatus()
 }
 
 func myTask() {
@@ -82,6 +80,7 @@ func myTask() {
 	}
 }
 
+// Main function
 func Main(args []string) {
 
 	if err := createBotStatusTable(DBClient); err != nil {
