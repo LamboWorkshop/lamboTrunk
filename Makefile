@@ -13,7 +13,7 @@ run: build
 	./build/$(LAMBOTRUNK)
 
 lint: ## Lint the files
-	@$(HOME)/go/bin/golint -set_exit_status cmd
+	@$(HOME)/go/bin/staticcheck ./...
 
 dep: ## Get the dependencies
 	go mod tidy

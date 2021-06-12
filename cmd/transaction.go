@@ -18,24 +18,24 @@ const (
 	sell = "SELL"
 )
 
-func getAmountFromLastTransaction(latestTransaction transactionHistory) (float64, error) {
-	amount, err := strconv.ParseFloat(latestTransaction.quantity, 64)
-	if err != nil {
-		logrus.Error(err)
-		return 0.0, err
-	}
+// func getAmountFromLastTransaction(latestTransaction transactionHistory) (float64, error) {
+// 	amount, err := strconv.ParseFloat(latestTransaction.quantity, 64)
+// 	if err != nil {
+// 		logrus.Error(err)
+// 		return 0.0, err
+// 	}
 
-	// fee, err := strconv.ParseFloat(latestTransaction.fee, 64)
-	// if err != nil {
-	// 	logrus.Error(err)
-	// 	return 0.0, err
-	// }
+// 	// fee, err := strconv.ParseFloat(latestTransaction.fee, 64)
+// 	// if err != nil {
+// 	// 	logrus.Error(err)
+// 	// 	return 0.0, err
+// 	// }
 
-	// // pp.Println("amount:", amount, "amount-fee:", amount-fee)
-	// amount -= fee
+// 	// // pp.Println("amount:", amount, "amount-fee:", amount-fee)
+// 	// amount -= fee
 
-	return amount, nil
-}
+// 	return amount, nil
+// }
 
 func transaction(coin sCoinToMonitor) error {
 	logrus.Info("Doing new transaction...")

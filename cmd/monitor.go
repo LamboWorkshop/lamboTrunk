@@ -3,7 +3,6 @@ package cmd
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
@@ -19,37 +18,37 @@ type sCoinToMonitor struct {
 	percentInvest string
 }
 
-func parseCoinToMonitor(monitor string) (sCoinToMonitor, string) {
-	split := strings.Fields(monitor)
-	var coinStruct sCoinToMonitor
+// func parseCoinToMonitor(monitor string) (sCoinToMonitor, string) {
+// 	split := strings.Fields(monitor)
+// 	var coinStruct sCoinToMonitor
 
-	if len(split) == 2 {
-		split = append(split, "0")
-	}
+// 	if len(split) == 2 {
+// 		split = append(split, "0")
+// 	}
 
-	pairSplit := strings.Split(split[0], "/")
-	if len(pairSplit) != 2 {
-		return sCoinToMonitor{}, ""
-	}
+// 	pairSplit := strings.Split(split[0], "/")
+// 	if len(pairSplit) != 2 {
+// 		return sCoinToMonitor{}, ""
+// 	}
 
-	coinStruct.leftAsset = pairSplit[0]
-	coinStruct.rightAsset = pairSplit[1]
-	coinStruct.pair = coinStruct.leftAsset + coinStruct.rightAsset
+// 	coinStruct.leftAsset = pairSplit[0]
+// 	coinStruct.rightAsset = pairSplit[1]
+// 	coinStruct.pair = coinStruct.leftAsset + coinStruct.rightAsset
 
-	if len(split) == 3 {
-		if split[1] == "on" {
-			coinStruct.percentInvest = split[2]
-			return coinStruct, "on"
-		} else if split[1] == "off" {
-			coinStruct.percentInvest = split[2]
-			return coinStruct, "off"
-		} else {
-			log.Println("Line is bad formatted :", monitor)
-		}
-	}
+// 	if len(split) == 3 {
+// 		if split[1] == "on" {
+// 			coinStruct.percentInvest = split[2]
+// 			return coinStruct, "on"
+// 		} else if split[1] == "off" {
+// 			coinStruct.percentInvest = split[2]
+// 			return coinStruct, "off"
+// 		} else {
+// 			log.Println("Line is bad formatted :", monitor)
+// 		}
+// 	}
 
-	return coinStruct, ""
-}
+// 	return coinStruct, ""
+// }
 
 type sCoinsDB struct {
 	id                    int
