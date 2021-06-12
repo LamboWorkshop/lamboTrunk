@@ -10,8 +10,11 @@ on:
 
 jobs:
 
+  install:
+
+
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - uses: actions/checkout@v2
 
@@ -19,6 +22,7 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.15
+      run: go get -u golang.org/x/lint/golint
 
     - name: Lint
       run: make lint
