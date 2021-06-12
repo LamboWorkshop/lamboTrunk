@@ -13,29 +13,26 @@ jobs:
   test:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-
+    - uses: actions/checkout@v2
     - name: Set up Go
       uses: actions/setup-go@v2
       with:
         go-version: 1.15
-
     - name: Lint
       run: make lint
 
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
-
+    - uses: actions/checkout@v2
     - name: Build
       run: make
 
   deploy:
-    name: Deploy
+    name: Build
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@master
+    - uses: actions/checkout@master
     - name: copy file via ssh password
       uses: appleboy/scp-action@master
       with:
