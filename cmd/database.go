@@ -14,8 +14,8 @@ import (
 )
 
 var (
-	host     = os.Getenv("DB_SERVER")
-	port     = 5432
+	host     = os.Getenv("POSTGRES_HOST")
+	port     = os.Getenv("POSTGRES_PORT")
 	user     = os.Getenv("POSTGRES_USER")
 	password = os.Getenv("POSTGRES_PASSWORD")
 	dbname   = os.Getenv("POSTGRES_DB")
