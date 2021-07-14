@@ -92,11 +92,13 @@ func Main(args []string) {
 
 	minute := 0
 	hour := 0
+	second := 0
 	if config.RefreshMonitorMinute < 60 {
 		minute = int(config.RefreshMonitorMinute)
 	} else if config.RefreshMonitorMinute >= 60 {
 		hour = int(config.RefreshMonitorMinute) / 60
 		minute = 1
+		second = 10
 	}
 
 	// Setup time for cron job
@@ -109,7 +111,11 @@ func Main(args []string) {
 	if hour > 0 {
 		timestamp := t.Unix()
 		timestamp -= timestamp % (3600)
+
 		t = time.Unix(timestamp, 0)
+
+		t = t.Add(time.Second * time.Duration(second))
+		t = t.Add(time.Minute * time.Duration(minute))
 	}
 
 	// exec every X minutes
