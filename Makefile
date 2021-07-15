@@ -23,7 +23,7 @@ build: dep ## Build the binary file
 	go build -o build/$(LAMBOTRUNK) $(PKG_LIST)
 
 prod: dep
-	env GOOS=linux GOARCH=amd64 go build -o build/$(LAMBOTRUNK) $(PKG_LIST)
+	env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o build/$(LAMBOTRUNK) $(PKG_LIST)
 
 clean: ## Remove previous build
 	@rm -fr $(BUILD_DIR)
