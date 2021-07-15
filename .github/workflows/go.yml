@@ -50,4 +50,3 @@ jobs:
        cd /root/lamboWorkshop
        docker-compose up -d --build --force-recreate --no-deps database
        EOF
-
