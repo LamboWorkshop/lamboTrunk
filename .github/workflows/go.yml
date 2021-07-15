@@ -47,6 +47,6 @@ jobs:
       run: |
        rsync -avz build Dockerfile config_prod.json root@${{ secrets.SSH_HOST }}:/root/lamboWorkshop/lamboTrunk
        ssh root@${{ secrets.SSH_HOST }} << EOF
+       cd /root/lamboWorkshop
        docker-compose up -d --build --force-recreate --no-deps database
        EOF
-
