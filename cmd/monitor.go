@@ -3,7 +3,6 @@ package cmd
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 
@@ -19,37 +18,37 @@ type sCoinToMonitor struct {
 	percentInvest string
 }
 
-func parseCoinToMonitor(monitor string) (sCoinToMonitor, string) {
-	split := strings.Fields(monitor)
-	var coinStruct sCoinToMonitor
+// func parseCoinToMonitor(monitor string) (sCoinToMonitor, string) {
+// 	split := strings.Fields(monitor)
+// 	var coinStruct sCoinToMonitor
 
-	if len(split) == 2 {
-		split = append(split, "0")
-	}
+// 	if len(split) == 2 {
+// 		split = append(split, "0")
+// 	}
 
-	pairSplit := strings.Split(split[0], "/")
-	if len(pairSplit) != 2 {
-		return sCoinToMonitor{}, ""
-	}
+// 	pairSplit := strings.Split(split[0], "/")
+// 	if len(pairSplit) != 2 {
+// 		return sCoinToMonitor{}, ""
+// 	}
 
-	coinStruct.leftAsset = pairSplit[0]
-	coinStruct.rightAsset = pairSplit[1]
-	coinStruct.pair = coinStruct.leftAsset + coinStruct.rightAsset
+// 	coinStruct.leftAsset = pairSplit[0]
+// 	coinStruct.rightAsset = pairSplit[1]
+// 	coinStruct.pair = coinStruct.leftAsset + coinStruct.rightAsset
 
-	if len(split) == 3 {
-		if split[1] == "on" {
-			coinStruct.percentInvest = split[2]
-			return coinStruct, "on"
-		} else if split[1] == "off" {
-			coinStruct.percentInvest = split[2]
-			return coinStruct, "off"
-		} else {
-			log.Println("Line is bad formatted :", monitor)
-		}
-	}
+// 	if len(split) == 3 {
+// 		if split[1] == "on" {
+// 			coinStruct.percentInvest = split[2]
+// 			return coinStruct, "on"
+// 		} else if split[1] == "off" {
+// 			coinStruct.percentInvest = split[2]
+// 			return coinStruct, "off"
+// 		} else {
+// 			log.Println("Line is bad formatted :", monitor)
+// 		}
+// 	}
 
-	return coinStruct, ""
-}
+// 	return coinStruct, ""
+// }
 
 type sCoinsDB struct {
 	id                    int
@@ -201,7 +200,8 @@ func monitorCoin(coin sCoinToMonitor) error {
 	return nil
 }
 
-func DBSaveManualTransaction(DBClient *sql.DB, resp *binance.Order, pair string) (transactionHistory, error) {
+// DBSaveManualTransaction DBSaveManualTransaction
+func dBSaveManualTransaction(DBClient *sql.DB, resp *binance.Order, pair string) (transactionHistory, error) {
 	var transaction transactionHistory
 
 	// Get fee from binance
@@ -254,14 +254,14 @@ func checkForManualTransaction(coin sCoinToMonitor) (bool, error) {
 
 	// check if order id is stored to DB
 	// if transaction is empty, it means the latest binance transaction was done manually
-	currentTransaction, err := DBGetTransactionByOrderID(DBClient, resp.OrderID, string(resp.Side))
+	currentTransaction, err := dBGetTransactionByOrderID(DBClient, resp.OrderID, string(resp.Side))
 	if currentTransaction != (transactionHistory{}) {
 		// No manual transaction found. Or the latest manual transaction is already stored
 		return false, err
 	}
 
 	// 1) Store to DB
-	transaction, err := DBSaveManualTransaction(DBClient, resp, coin.pair)
+	transaction, err := dBSaveManualTransaction(DBClient, resp, coin.pair)
 	if err != nil {
 		return false, err
 	}

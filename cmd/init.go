@@ -19,6 +19,7 @@ var (
 
 )
 
+// SConfig config struct
 type SConfig struct {
 	LogFilePath string `json:"logFilePath"`
 	// RefreshMarketMinute  int      `json:"minuteToAnalyze"`

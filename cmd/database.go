@@ -8,13 +8,14 @@ import (
 	"strings"
 
 	"github.com/k0kubun/pp"
+	// for psql
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
 
 var (
-	host     = os.Getenv("DB_SERVER")
-	port     = 5432
+	host     = os.Getenv("POSTGRES_HOST")
+	port     = os.Getenv("POSTGRES_PORT")
 	user     = os.Getenv("POSTGRES_USER")
 	password = os.Getenv("POSTGRES_PASSWORD")
 	dbname   = os.Getenv("POSTGRES_DB")
@@ -40,10 +41,12 @@ type customAllTimeHigh struct {
 	Pair              string
 }
 
+// DBClient database client
 var DBClient *sql.DB
 
+// ConnectToDB func to init connection to DB
 func ConnectToDB() (*sql.DB, error) {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable",
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+"password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 
 	db, err := sql.Open("postgres", psqlInfo)
@@ -70,6 +73,7 @@ func initDataBase() *sql.DB {
 	return db
 }
 
+// CreateTable create a table
 func CreateTable(db *sql.DB, tableName, tableContent string) error {
 
 	query := `CREATE TABLE IF NOT EXISTS ` + tableName + ` (` + tableContent + `);`
@@ -126,6 +130,7 @@ func addTransactionToDB(table string, transaction transactionHistory) error {
 	return nil
 }
 
+// DBUpdateCATH update CATH
 func DBUpdateCATH(table string, CATH customAllTimeHigh) error {
 
 	exist, err := isEmtyTable(table)
@@ -258,9 +263,9 @@ func getLatestTransactionInDB(DBClient *sql.DB, pair string) (transactionHistory
 
 	if latestBuy.timestamp > latestSell.timestamp {
 		return latestBuy, nil
-	} else {
-		return latestSell, nil
 	}
+
+	return latestSell, nil
 }
 
 func checkIfTransactionExistInDB(DBClient *sql.DB, pair string) (bool, error) {
@@ -287,7 +292,7 @@ func createBotStatusTable(DBClient *sql.DB) error {
 	return CreateTable(DBClient, "bot_status", "id SERIAL PRIMARY KEY, bot_status TEXT")
 }
 
-func DBGetTransactionByOrderID(DBClient *sql.DB, orderID int64, side string) (transactionHistory, error) {
+func dBGetTransactionByOrderID(DBClient *sql.DB, orderID int64, side string) (transactionHistory, error) {
 	var transaction transactionHistory
 
 	req := `select * from ethbusd_` + strings.ToLower(side) + `_history where order_id=$1;`
