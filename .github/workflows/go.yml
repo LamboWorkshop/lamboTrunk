@@ -43,4 +43,9 @@ jobs:
     - name: Adding Known Hosts
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
     - name: Deploy with rsync
-      run: rsync -avz build Dockerfile config_prod.json root@${{ secrets.SSH_HOST }}:/root/lamboWorkshop/lamboTrunk
+      run: |
+       rsync -avz build Dockerfile config_prod.json root@${{ secrets.SSH_HOST }}:/root/lamboWorkshop/lamboTrunk
+       ssh root@{{ secrets.SSH_HOST }} << EOF
+       docker-compose up -d --build --force-recreate --no-deps database
+       EOF
+

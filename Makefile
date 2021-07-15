@@ -1,9 +1,7 @@
 LAMBOTRUNK := lamboTrunk
 PKG_LIST := main.go
 BUILD_DIR := "build"
-# GO_FILES := $(shell find . -name '*.go' | grep -v /vendor/ | grep -v _test.go)
 COMMIT = $(shell git rev-list -1 HEAD)
-# VERSION=$(shell cat ./version)
 
 .PHONY: all dep build clean test coverage coverhtml lint
 
